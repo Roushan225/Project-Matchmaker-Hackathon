@@ -1,6 +1,6 @@
 import type { ChatMessage } from "@project-matchmaker/shared";
 import { chatMessageSchema } from "@project-matchmaker/shared";
-import { createMessage } from "../repositories/messages";
+import { createMessage, listMessages } from "../repositories/messages";
 import { requireWorkspaceMember } from "./authorization";
 import { AppError } from "./errors";
 
@@ -10,4 +10,10 @@ export async function postChatMessage(input: unknown, senderId: string): Promise
   await requireWorkspaceMember(parsed.data.projectId, senderId);
   const createdAt = new Date();
   return createMessage({ projectId: parsed.data.projectId, senderId, content: parsed.data.content, createdAt });
+}
+
+export async function getChatMessages(projectId: string, userId: string) {
+  if (!projectId.trim()) throw new AppError("Project is required.");
+  await requireWorkspaceMember(projectId, userId);
+  return listMessages(projectId);
 }

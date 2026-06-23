@@ -8,6 +8,18 @@ export type ApplicationDocument = Stored<Application>;
 export type InvitationDocument = Stored<Invitation>;
 export type WorkspaceMembershipDocument = Stored<WorkspaceMembership>;
 export type ChatMessageDocument = Stored<ChatMessage>;
+export type WorkspaceTask = {
+  id: string;
+  projectId: string;
+  title: string;
+  assigneeId: string;
+  createdById: string;
+  completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  completedAt?: Date;
+};
+export type WorkspaceTaskDocument = Stored<WorkspaceTask>;
 
 export function withId<T extends { _id: ObjectId }>(document: T): Omit<T, "_id"> & { id: string } {
   const { _id, ...rest } = document;

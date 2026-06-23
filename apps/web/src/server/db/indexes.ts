@@ -12,6 +12,7 @@ export function ensureIndexes() {
       db.collection("invitations").createIndex({ projectId: 1, recipientId: 1 }, { unique: true }),
       db.collection("workspaceMemberships").createIndex({ projectId: 1, userId: 1 }, { unique: true }),
       db.collection("chatMessages").createIndex({ projectId: 1, createdAt: -1 }),
+      db.collection("workspaceTasks").createIndex({ projectId: 1, updatedAt: -1 }),
     ]);
   })();
   return indexesReady;

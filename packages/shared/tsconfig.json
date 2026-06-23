@@ -9,5 +9,6 @@
     "declaration": true
   },
   "include": ["src/**/*.ts"],
-  "buildOptions": ["src/**/*.test.ts","src/**/*.spec.ts"]
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
+  "buildOptions": ["src/schemas/index.test.ts","src/**/*.spec.ts"]
 }

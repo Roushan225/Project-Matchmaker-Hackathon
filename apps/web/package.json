@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "npm --prefix ../../packages/shared run build",
+    "prebuild": "npx tsc -p ../../packages/shared/tsconfig.build.json",
     "dev": "next dev",
-    "build": "npm run build --workspace=@project-matchmaker/shared && next build",
+    "build": "npm run prebuild && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

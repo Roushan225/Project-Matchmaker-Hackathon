@@ -1,0 +1,8 @@
+import Link from "next/link";
+import { WorkspaceChat } from "@/features/chat/components/workspace-chat";
+import { requireUser } from "@/server/require-user";
+
+export default async function HubPage({ params }: { params: Promise<{ projectId: string }> }) {
+  const [{ projectId }, user] = await Promise.all([params, requireUser()]);
+  return <div className="mx-auto max-w-6xl"><div className="mb-7 flex flex-wrap items-start justify-between gap-4"><div><Link href="/projects" className="text-sm font-medium text-teal-300">← Projects</Link><h1 className="mt-3 text-3xl font-semibold text-white">Team workspace</h1><p className="mt-2 text-slate-400">Private collaboration space for accepted members.</p></div><button className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-semibold text-slate-200">Invite teammate</button></div><div className="grid gap-6 lg:grid-cols-[1fr_280px]"><WorkspaceChat projectId={projectId} currentUserId={user.id} /><aside className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5"><h2 className="font-semibold text-white">Workspace tools</h2><div className="mt-4 space-y-3 text-sm"><button className="w-full rounded-lg bg-slate-800 px-3 py-2 text-left text-slate-200">Task board <span className="float-right text-slate-500">Soon</span></button><button className="w-full rounded-lg bg-slate-800 px-3 py-2 text-left text-slate-200">Resource vault <span className="float-right text-slate-500">Soon</span></button><button className="w-full rounded-lg bg-slate-800 px-3 py-2 text-left text-slate-200">AI copilot <span className="float-right text-slate-500">Later</span></button></div></aside></div></div>;
+}

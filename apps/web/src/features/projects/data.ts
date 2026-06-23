@@ -1,0 +1,7 @@
+import type { ProjectCardData } from "./components/project-card";
+
+export const featuredProjects: ProjectCardData[] = [
+  { id: "demo-1", slug: "open-source-onboarding", title: "Open-source onboarding kit", description: "A guided contribution workflow that helps first-time contributors find issues they can actually solve.", category: "Open source", requiredSkills: ["Next.js", "TypeScript", "UI/UX"], memberCount: 2, maxTeamSize: 4 },
+  { id: "demo-2", slug: "campus-carbon", title: "Campus Carbon", description: "Make campus sustainability data useful with a lightweight tracking dashboard and public impact view.", category: "Climate", requiredSkills: ["Python", "Data viz", "React"], memberCount: 3, maxTeamSize: 5 },
+  { id: "demo-3", slug: "pair-programming-lab", title: "Pair Programming Lab", description: "A focused practice space for students to find partners, schedule sessions, and learn in public.", category: "Education", requiredSkills: ["Node.js", "MongoDB", "WebRTC"], memberCount: 1, maxTeamSize: 4 },
+];

@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Matchmaker
 
-## Getting Started
+Project Matchmaker helps developers find credible teammates through GitHub-backed profiles, purposeful project matching, and private team workspaces.
 
-First, run the development server:
+## Local development
+
+Copy the environment template and configure MongoDB Atlas and a GitHub OAuth application:
 
 ```bash
+cp .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the real-time service in a second terminal:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev:realtime
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000). Run `npm run typecheck`, `npm run lint`, and `npm run build` before deployment.
 
-## Learn More
+## Workspace layout
 
-To learn more about Next.js, take a look at the following resources:
+- `apps/web`: Next.js UI, Auth.js, route handlers, and MongoDB domain logic.
+- `apps/realtime`: Socket.IO service, deployed as a persistent Node process.
+- `packages/shared`: domain types, validation schemas, and socket contracts.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy both applications to Node-capable infrastructure. The Socket.IO service needs a host that supports persistent WebSocket connections; do not deploy it to a serverless-only platform.

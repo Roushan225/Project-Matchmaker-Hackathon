@@ -1,27 +1,24 @@
 {
-  "name": "next_ts_hackathon",
+  "name": "project-matchmaker",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "npm run build --workspace=@project-matchmaker/shared && npm run dev --workspace=@project-matchmaker/web",
+    "dev:web": "npm run build --workspace=@project-matchmaker/shared && npm run dev --workspace=@project-matchmaker/web",
+    "dev:realtime": "npm run build --workspace=@project-matchmaker/shared && npm run dev --workspace=@project-matchmaker/realtime",
+    "build": "npm run build --workspace=@project-matchmaker/shared && npm run build --workspace=@project-matchmaker/web && npm run build --workspace=@project-matchmaker/realtime",
+    "lint": "npm run lint --workspace=@project-matchmaker/web",
+    "typecheck": "npm run build --workspace=@project-matchmaker/shared && npm run typecheck --workspace=@project-matchmaker/web && npm run typecheck --workspace=@project-matchmaker/realtime",
+    "test": "npm run build --workspace=@project-matchmaker/shared && vitest run"
   },
-  "dependencies": {
-    "next": "16.2.9",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+  "engines": {
+    "node": ">=20.9.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.9",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "vitest": "^3.2.6"
   }
 }

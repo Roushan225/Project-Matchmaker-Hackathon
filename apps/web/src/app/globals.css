@@ -14,3 +14,27 @@ body { background: var(--background); color: var(--foreground); font-family: Ari
 a { text-decoration: none; }
 button, input, textarea, select { font: inherit; }
 ::selection { background: #2dd4bf; color: #06231f; }
+
+html { scroll-behavior: smooth; }
+.scroll-scale { transform-origin: center center; transition: transform 100ms linear, opacity 100ms linear; will-change: transform, opacity; }
+
+.landing-grid { background-image: linear-gradient(rgba(167, 139, 250, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(167, 139, 250, .12) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
+.landing-reveal { animation: landing-reveal 700ms cubic-bezier(.2,.8,.2,1) both; }
+.landing-reveal:nth-child(2) { animation-delay: 90ms; }
+.landing-reveal:nth-child(3) { animation-delay: 180ms; }
+.landing-reveal:nth-child(4) { animation-delay: 270ms; }
+.hero-orbit { position: absolute; left: 50%; bottom: 28px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; transform: translateX(-50%) rotateX(62deg); }
+.hero-orbit-one { width: 360px; height: 135px; animation: orbit-pulse 4s ease-in-out infinite; }
+.hero-orbit-two { width: 540px; height: 200px; border-color: rgba(196,181,253,.14); animation: orbit-pulse 4s ease-in-out infinite 700ms; }
+.hero-float { position: absolute; z-index: 2; animation: float 5s ease-in-out infinite; }
+.hero-float-left { left: 17%; top: 32%; transform: rotate(-11deg); }
+.hero-float-right { right: 20%; top: 19%; animation-delay: -1.4s; }
+.hero-float-bottom { bottom: 22%; right: 24%; animation-delay: -2.6s; }
+.hero-star { position: absolute; color: #fff; font-size: 13px; opacity: .85; animation: twinkle 2.4s ease-in-out infinite; }
+.hero-star-one { left: 24%; top: 49%; }.hero-star-two { right: 26%; top: 51%; animation-delay: .8s; }.hero-star-three { left: 37%; bottom: 31%; animation-delay: 1.4s; }.hero-star-four { right: 40%; bottom: 24%; animation-delay: .4s; }
+@keyframes landing-reveal { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-16px) rotate(4deg); } }
+@keyframes twinkle { 0%,100% { opacity: .25; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.2); } }
+@keyframes orbit-pulse { 0%,100% { opacity: .42; } 50% { opacity: .85; } }
+@media (max-width: 640px) { .hero-float-left { left: 5%; top: 37%; }.hero-float-right { right: 6%; }.hero-float-bottom { right: 5%; }.hero-orbit-two { width: 420px; }.landing-hero { min-height: 710px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }

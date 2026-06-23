@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "npm --prefix ../../packages/shared run build",
     "dev": "next dev",
     "build": "npm run build --workspace=@project-matchmaker/shared && next build",
     "start": "next start",

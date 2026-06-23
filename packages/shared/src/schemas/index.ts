@@ -17,6 +17,16 @@ export const profileUpdateSchema = z.object({
   discoverable: z.boolean(),
 });
 
+export const onboardingSchema = z.object({
+  headline: z.string().trim().max(100).optional(),
+  techStack: z.array(normalizedText.max(40)).min(1, "Add at least one technical skill.").max(20),
+  roles: z.array(normalizedText.max(40)).min(1, "Add at least one role.").max(10),
+  projectInterests: z.array(normalizedText.max(40)).min(1, "Choose at least one project interest.").max(10),
+  weeklyAvailability: z.enum(["1-3", "4-7", "8-12", "12+"]),
+  availability: z.enum(AVAILABILITY_STATUSES),
+  discoverable: z.boolean(),
+});
+
 export const projectCreateSchema = z.object({
   title: normalizedText.max(100),
   description: normalizedText.max(2000),

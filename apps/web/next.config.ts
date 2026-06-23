@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 import { loadEnvConfig } from "@next/env";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const workspaceRoot = path.join(process.cwd(), "../..");
+const configDirectory = path.dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = path.resolve(configDirectory, "../..");
 loadEnvConfig(workspaceRoot);
 
 const nextConfig: NextConfig = {

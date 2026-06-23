@@ -22,8 +22,12 @@ export interface UserProfile {
   website?: string;
   techStack: string[];
   roles: string[];
+  headline?: string;
+  projectInterests: string[];
+  weeklyAvailability: "1-3" | "4-7" | "8-12" | "12+";
   availability: AvailabilityStatus;
   discoverable: boolean;
+  onboardingCompleted: boolean;
   githubProfileUrl: string;
   createdAt: Date;
   updatedAt: Date;

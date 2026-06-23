@@ -37,7 +37,14 @@ export function OnboardingForm({ initialProfile }: OnboardingFormProps) {
       }),
     });
     const data = await response.json();
-    if (response.ok) window.location.assign("/dashboard");
+    if (response.ok) {
+      const syncResponse = await fetch("/api/github/sync", { method: "POST" });
+      if (syncResponse.ok) window.location.assign("/dashboard");
+      else {
+        setMessage("Your profile is saved, but GitHub data could not sync. You can retry from the dashboard.");
+        setSaving(false);
+      }
+    }
     else {
       setMessage(data.error ?? "Could not save your profile.");
       setSaving(false);

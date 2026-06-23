@@ -10,7 +10,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@next/env": "16.2.9",
     "@auth/mongodb-adapter": "^3.10.0",
     "@project-matchmaker/shared": "*",
     "jose": "^6.1.0",

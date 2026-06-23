@@ -28,9 +28,43 @@ export interface UserProfile {
   availability: AvailabilityStatus;
   discoverable: boolean;
   onboardingCompleted: boolean;
+  github?: GitHubSnapshot;
   githubProfileUrl: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface GitHubRepository {
+  id: number;
+  name: string;
+  fullName: string;
+  url: string;
+  description?: string;
+  primaryLanguage?: string;
+  topics: string[];
+  stars: number;
+  forks: number;
+  openIssues: number;
+  isFork: boolean;
+  updatedAt: Date;
+}
+
+export interface GitHubSnapshot {
+  id: number;
+  login: string;
+  company?: string;
+  location?: string;
+  website?: string;
+  twitterUsername?: string;
+  publicRepos: number;
+  publicGists: number;
+  followers: number;
+  following: number;
+  joinedAt: Date;
+  organizations: Array<{ login: string; name?: string; avatarUrl: string; url: string }>;
+  languages: string[];
+  repositories: GitHubRepository[];
+  syncedAt: Date;
 }
 
 export interface Project {

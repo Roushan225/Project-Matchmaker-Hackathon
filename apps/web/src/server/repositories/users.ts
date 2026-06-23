@@ -27,7 +27,22 @@ export async function findProfileById(userId: string) {
 
 export async function listDiscoverableProfiles(limit = 30) {
   const db = await getDatabase();
-  const documents = await db.collection<UserDocument>("users").find({ discoverable: true }).sort({ updatedAt: -1 }).limit(limit).toArray();
+  const documents = await db.collection<UserDocument>("users").find({ discoverable: true, onboardingCompleted: true }).sort({ updatedAt: -1 }).limit(limit).toArray();
+  return documents.map((document) => withId(document) as UserProfile);
+}
+
+export async function findProfileByUsername(username: string) {
+  const db = await getDatabase();
+  const document = await db.collection<UserDocument>("users").findOne({ username, onboardingCompleted: true });
+  return document ? withId(document) as UserProfile : null;
+}
+
+export async function listProfilesByIds(userIds: string[]) {
+  const ids = userIds.filter(ObjectId.isValid).map((userId) => new ObjectId(userId));
+  if (!ids.length) return [];
+
+  const db = await getDatabase();
+  const documents = await db.collection<UserDocument>("users").find({ _id: { $in: ids } }).toArray();
   return documents.map((document) => withId(document) as UserProfile);
 }
 

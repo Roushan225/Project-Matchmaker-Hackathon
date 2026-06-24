@@ -1,6 +1,7 @@
 import type { GitHubRepository, GitHubSnapshot } from "@project-matchmaker/shared";
 import { ObjectId } from "mongodb";
 import { getDatabase } from "../db/client";
+import { AppError } from "../services/errors";
 
 type GitHubProfileResponse = {
   id: number;
@@ -59,6 +60,7 @@ async function githubRequest<T>(path: string, accessToken: string): Promise<T> {
     },
     cache: "no-store",
   });
+  if (response.status === 401) throw new AppError("GitHub access has expired. Sign in with GitHub again.", 401);
   if (!response.ok) throw new Error(`GitHub API request failed (${response.status}).`);
   return response.json() as Promise<T>;
 }

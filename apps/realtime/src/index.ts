@@ -9,9 +9,12 @@ import { logConnection } from "./middleware/logger.js";
 config({ path: "../../.env.local" });
 
 const port = Number(process.env.REALTIME_PORT ?? 4000);
-const origin = process.env.WEB_ORIGIN ?? "http://localhost:3000";
+const origins = (process.env.WEB_ORIGIN ?? "http://localhost:3000")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 const httpServer = createServer();
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer, { cors: { origin, methods: ["GET", "POST"] } });
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer, { cors: { origin: origins, methods: ["GET", "POST"] } });
 
 io.use(async (socket, next) => {
   try {

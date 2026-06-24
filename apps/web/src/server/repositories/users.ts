@@ -33,7 +33,10 @@ export async function listDiscoverableProfiles(limit = 30) {
 
 export async function findProfileByUsername(username: string) {
   const db = await getDatabase();
-  const document = await db.collection<UserDocument>("users").findOne({ username, onboardingCompleted: true });
+  const document = await db.collection<UserDocument>("users").findOne(
+    { username, onboardingCompleted: true },
+    { collation: { locale: "en", strength: 2 } },
+  );
   return document ? withId(document) as UserProfile : null;
 }
 

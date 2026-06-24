@@ -16,12 +16,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   trustHost: true,
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account }) {
       // New OAuth users have GitHub's provider ID here. Their MongoDB user is
       // created only after this callback completes, so Auth.js routes them via
       // `pages.newUser` below.
       if (!user.id || !ObjectId.isValid(user.id)) return true;
       const db = await getDatabase();
+
+      // Auth.js does not replace the account document when an already-linked
+      // OAuth account signs in again. Keep the token current so a GitHub app
+      // recreation or token revocation can be repaired by signing in again.
+      if (account?.provider === "github" && account.access_token) {
+        await db.collection("accounts").updateOne(
+          { userId: new ObjectId(user.id), provider: "github", providerAccountId: account.providerAccountId },
+          { $set: { access_token: account.access_token, updatedAt: new Date() } },
+        );
+      }
+
       const profile = await db.collection<{ onboardingCompleted?: boolean }>("users").findOne({ _id: new ObjectId(user.id) });
       return profile?.onboardingCompleted ? true : "/onboarding";
     },

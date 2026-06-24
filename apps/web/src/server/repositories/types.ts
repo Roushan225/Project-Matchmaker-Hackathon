@@ -1,5 +1,5 @@
 import type { ObjectId } from "mongodb";
-import type { Application, ChatMessage, Invitation, Project, UserProfile, WorkspaceMembership } from "@project-matchmaker/shared";
+import type { Application, ChatMessage, Invitation, Project, UserProfile, WorkspaceExpense, WorkspaceMembership, WorkspaceResource } from "@project-matchmaker/shared";
 
 export type Stored<T> = Omit<T, "id"> & { _id: ObjectId };
 export type UserDocument = Stored<UserProfile>;
@@ -7,6 +7,8 @@ export type ProjectDocument = Stored<Project>;
 export type ApplicationDocument = Stored<Application>;
 export type InvitationDocument = Stored<Invitation>;
 export type WorkspaceMembershipDocument = Stored<WorkspaceMembership>;
+export type WorkspaceResourceDocument = Stored<WorkspaceResource>;
+export type WorkspaceExpenseDocument = Stored<WorkspaceExpense>;
 export type ChatMessageDocument = Stored<ChatMessage>;
 export type WorkspaceTask = {
   id: string;

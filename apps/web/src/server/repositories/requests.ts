@@ -10,6 +10,51 @@ export async function findApplication(projectId: string, applicantId: string) {
   return document ? withId(document) as Application : null;
 }
 
+export async function findInvitation(projectId: string, recipientId: string) {
+  const db = await getDatabase();
+  const document = await db.collection<InvitationDocument>("invitations").findOne({ projectId, recipientId });
+  return document ? withId(document) as Invitation : null;
+}
+
+export async function listInvitationStatuses(projectIds: string[], recipientId: string) {
+  if (!projectIds.length) return new Map<string, Invitation["status"]>();
+  const db = await getDatabase();
+  const documents = await db.collection<InvitationDocument>("invitations").find({ projectId: { $in: projectIds }, recipientId }).toArray();
+  return new Map(documents.map((document) => [document.projectId, document.status]));
+}
+
+export async function listInvitationsForRecipient(recipientId: string) {
+  const db = await getDatabase();
+  const documents = await db.collection<InvitationDocument>("invitations").find({ recipientId }).sort({ createdAt: -1 }).toArray();
+  return documents.map((document) => withId(document) as Invitation);
+}
+
+export async function listInvitationsForSender(senderId: string) {
+  const db = await getDatabase();
+  const documents = await db.collection<InvitationDocument>("invitations").find({ senderId }).sort({ createdAt: -1 }).toArray();
+  return documents.map((document) => withId(document) as Invitation);
+}
+
+export async function getInvitation(invitationId: string) {
+  if (!ObjectId.isValid(invitationId)) return null;
+  const db = await getDatabase();
+  const document = await db.collection<InvitationDocument>("invitations").findOne({ _id: new ObjectId(invitationId) });
+  return document ? withId(document) as Invitation : null;
+}
+
+export async function updateInvitation(invitationId: string, status: Invitation["status"], actedBy: string) {
+  if (!ObjectId.isValid(invitationId)) return;
+  const db = await getDatabase();
+  await db.collection<InvitationDocument>("invitations").updateOne({ _id: new ObjectId(invitationId) }, { $set: { status, actedBy, updatedAt: new Date() } });
+}
+
+export async function listApplicationsForProjects(projectIds: string[]) {
+  if (!projectIds.length) return [] as Application[];
+  const db = await getDatabase();
+  const documents = await db.collection<ApplicationDocument>("applications").find({ projectId: { $in: projectIds } }).sort({ createdAt: -1 }).toArray();
+  return documents.map((document) => withId(document) as Application);
+}
+
 export async function createApplication(document: Omit<ApplicationDocument, "_id">) {
   const db = await getDatabase();
   const result = await db.collection<ApplicationDocument>("applications").insertOne(document as ApplicationDocument);

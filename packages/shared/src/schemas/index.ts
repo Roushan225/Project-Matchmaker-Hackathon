@@ -60,3 +60,11 @@ export const chatMessageSchema = z.object({
 export const socketTicketRequestSchema = z.object({
   projectId: z.string().min(1),
 });
+
+export const workspaceExpenseCreateSchema = z.object({
+  projectId: z.string().min(1),
+  title: normalizedText.max(120),
+  description: z.string().trim().max(280).optional(),
+  amount: z.coerce.number().positive().max(1_000_000),
+  currency: z.string().trim().toUpperCase().length(3).default("USD"),
+});

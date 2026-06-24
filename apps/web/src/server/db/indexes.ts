@@ -10,9 +10,13 @@ export function ensureIndexes() {
       db.collection("projects").createIndex({ status: 1, createdAt: -1 }),
       db.collection("applications").createIndex({ projectId: 1, applicantId: 1 }, { unique: true }),
       db.collection("invitations").createIndex({ projectId: 1, recipientId: 1 }, { unique: true }),
+      db.collection("invitations").createIndex({ recipientId: 1, createdAt: -1 }),
+      db.collection("invitations").createIndex({ senderId: 1, createdAt: -1 }),
       db.collection("workspaceMemberships").createIndex({ projectId: 1, userId: 1 }, { unique: true }),
       db.collection("chatMessages").createIndex({ projectId: 1, createdAt: -1 }),
       db.collection("workspaceTasks").createIndex({ projectId: 1, updatedAt: -1 }),
+      db.collection("workspaceResources").createIndex({ projectId: 1, createdAt: -1 }),
+      db.collection("workspaceExpenses").createIndex({ projectId: 1, createdAt: -1 }),
     ]);
   })();
   return indexesReady;

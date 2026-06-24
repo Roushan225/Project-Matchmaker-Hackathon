@@ -5,6 +5,7 @@ import { featuredProjects } from "@/features/projects/data";
 import { toProjectCardData } from "@/features/projects/project-presenter";
 import { findProjectBySlug } from "@/server/repositories/projects";
 import { listProfilesByIds } from "@/server/repositories/users";
+import { ApplyToProjectButton } from "@/features/projects/components/apply-to-project-button";
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,7 +27,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const openSlots = project.maxTeamSize - project.memberCount;
 
   return <div className="mx-auto w-full max-w-[1440px] space-y-5">
-    <section className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(120deg,rgba(30,22,88,.86),rgba(16,11,61,.74))] p-6 shadow-2xl shadow-indigo-950/20 backdrop-blur-xl md:p-8"><div className="absolute -right-24 -top-28 h-72 w-72 rounded-full bg-violet-400/15 blur-3xl" /><div className="relative"><Link href="/projects" className="text-sm font-medium text-indigo-200 hover:text-white">← Project board</Link><div className="mt-8 flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between"><div className="max-w-3xl"><p className="text-sm font-semibold uppercase tracking-[0.16em] text-indigo-200">{project.category} · Recruiting</p><h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-white md:text-6xl">{project.title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-indigo-100/70">{project.description}</p></div><button className="w-fit rounded-lg border border-white/25 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-indigo-950">Apply to join</button></div></div></section>
+    <section className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(120deg,rgba(30,22,88,.86),rgba(16,11,61,.74))] p-6 shadow-2xl shadow-indigo-950/20 backdrop-blur-xl md:p-8"><div className="absolute -right-24 -top-28 h-72 w-72 rounded-full bg-violet-400/15 blur-3xl" /><div className="relative"><Link href="/projects" className="text-sm font-medium text-indigo-200 hover:text-white">← Project board</Link><div className="mt-8 flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between"><div className="max-w-3xl"><p className="text-sm font-semibold uppercase tracking-[0.16em] text-indigo-200">{project.category} · Recruiting</p><h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-white md:text-6xl">{project.title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-indigo-100/70">{project.description}</p></div><ApplyToProjectButton projectId={project.id} projectTitle={project.title} /></div></div></section>
 
     <section className="grid grid-cols-2 gap-3 md:grid-cols-4"><Metric label="Team members" value={`${project.memberCount}/${project.maxTeamSize}`} /><Metric label="Open roles" value={openSlots} /><Metric label="Required skills" value={project.requiredSkills.length} /><Metric label="Project status" value="Recruiting" /></section>
 

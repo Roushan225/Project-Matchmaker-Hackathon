@@ -31,6 +31,8 @@ Set the corresponding `AUTH_GITHUB_ID` and `AUTH_GITHUB_SECRET` in each runtime:
 
 Use the same `MONGODB_URI` only when local and production should share application data. Set a distinct `AUTH_SECRET` per environment. The web app and its corresponding Socket.IO service must share the same `SOCKET_TOKEN_SECRET`. If one Socket.IO deployment serves both web origins, set its `WEB_ORIGIN` to a comma-separated allowlist, for example `http://localhost:3000,https://<your-vercel-domain>`.
 
+To enable the workspace Resource board, set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in the web runtime. These values are used only by the server upload route; do not expose the API secret through a `NEXT_PUBLIC_` variable.
+
 ## Workspace layout
 
 - `apps/web`: Next.js UI, Auth.js, route handlers, and MongoDB domain logic.

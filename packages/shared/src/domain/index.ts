@@ -46,7 +46,14 @@ export interface GitHubRepository {
   forks: number;
   openIssues: number;
   isFork: boolean;
+  recentCommitCount: number;
   updatedAt: Date;
+}
+
+export interface GitHubContributionDay {
+  date: string;
+  count: number;
+  color: string;
 }
 
 export interface GitHubSnapshot {
@@ -64,6 +71,10 @@ export interface GitHubSnapshot {
   organizations: Array<{ login: string; name?: string; avatarUrl: string; url: string }>;
   languages: string[];
   repositories: GitHubRepository[];
+  contributionCalendar: {
+    totalContributions: number;
+    days: GitHubContributionDay[];
+  };
   syncedAt: Date;
 }
 
@@ -112,6 +123,28 @@ export interface WorkspaceMembership {
   userId: string;
   role: WorkspaceRole;
   joinedAt: Date;
+}
+
+export interface WorkspaceResource {
+  id: string;
+  projectId: string;
+  name: string;
+  url: string;
+  mimeType: string;
+  bytes: number;
+  uploadedById: string;
+  createdAt: Date;
+}
+
+export interface WorkspaceExpense {
+  id: string;
+  projectId: string;
+  title: string;
+  description?: string;
+  amount: number;
+  currency: string;
+  paidById: string;
+  createdAt: Date;
 }
 
 export interface ChatMessage {

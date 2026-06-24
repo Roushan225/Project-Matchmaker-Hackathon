@@ -26,6 +26,16 @@ export function SidebarNav({ hubProjects }: { hubProjects: HubProjectLink[] }) {
       </nav>
 
       <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-3 shadow-xl shadow-indigo-950/20 backdrop-blur-xl">
+        <div className="mb-3 flex items-start justify-between gap-3 px-1">
+          <div><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-100/45">Your projects</p><p className="mt-1 text-sm text-indigo-100/70">Team status</p></div>
+          <Link href="/projects/new" className="rounded-lg border border-white/15 px-2 py-1 text-xs font-semibold text-indigo-100 hover:bg-white hover:text-indigo-950">Create</Link>
+        </div>
+        <div className="space-y-2">
+          {hubProjects.length ? hubProjects.map((project) => <Link key={project.id} href={`/projects/${project.slug}`} className="block rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3 transition hover:border-white/20 hover:bg-white/10"><div className="flex items-center justify-between gap-3"><span className="truncate text-sm font-medium text-white">{project.title}</span><span className="rounded-full bg-emerald-300/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-emerald-100">{project.status}</span></div><p className="mt-1 text-xs text-indigo-100/55">{project.memberCount}/{project.maxTeamSize} members · access approved</p></Link>) : <div className="rounded-xl border border-dashed border-white/10 bg-white/[0.03] px-3 py-4 text-sm text-indigo-100/55">Create or join a project to manage it here.</div>}
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-3 shadow-xl shadow-indigo-950/20 backdrop-blur-xl">
         <div className="mb-3 px-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-indigo-100/45">The Hub</p>
           <p className="mt-1 text-sm text-indigo-100/70">Project chats</p>

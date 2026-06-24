@@ -8,6 +8,9 @@ export type HubProjectLink = {
   id: string;
   title: string;
   slug: string;
+  status: Project["status"];
+  memberCount: number;
+  maxTeamSize: number;
 };
 
 export async function createProject(document: Omit<ProjectDocument, "_id">) {
@@ -41,9 +44,23 @@ export async function listWorkspaceProjectsForUser(userId: string, limit = 8) {
     .find({ memberIds: userId })
     .sort({ updatedAt: -1 })
     .limit(limit)
-    .project<Pick<ProjectDocument, "_id" | "title" | "slug">>({ title: 1, slug: 1 })
+    .project<Pick<ProjectDocument, "_id" | "title" | "slug" | "status" | "memberIds" | "maxTeamSize">>({ title: 1, slug: 1, status: 1, memberIds: 1, maxTeamSize: 1 })
     .toArray();
-  return documents.map((document) => ({ id: document._id.toHexString(), title: document.title, slug: document.slug })) as HubProjectLink[];
+  return documents.map((document) => ({ id: document._id.toHexString(), title: document.title, slug: document.slug, status: document.status, memberCount: document.memberIds.length, maxTeamSize: document.maxTeamSize })) as HubProjectLink[];
+}
+
+export async function listProjectsOwnedByUser(ownerId: string) {
+  const db = await getDatabase();
+  const documents = await db.collection<ProjectDocument>("projects").find({ ownerId }).sort({ updatedAt: -1 }).toArray();
+  return documents.map((document) => withId(document) as Project);
+}
+
+export async function listProjectsByIds(projectIds: string[]) {
+  const ids = projectIds.filter(ObjectId.isValid).map((projectId) => new ObjectId(projectId));
+  if (!ids.length) return [] as Project[];
+  const db = await getDatabase();
+  const documents = await db.collection<ProjectDocument>("projects").find({ _id: { $in: ids } }).toArray();
+  return documents.map((document) => withId(document) as Project);
 }
 
 export async function addProjectMember(projectId: string, userId: string) {

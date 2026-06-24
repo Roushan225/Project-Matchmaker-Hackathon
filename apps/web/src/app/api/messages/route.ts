@@ -8,7 +8,8 @@ export async function GET(request: Request) {
     const user = await requireUser();
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get("projectId") ?? "";
-    const messages = await getChatMessages(projectId, user.id);
+    const channel = searchParams.get("channel") === "team" ? "team" : "discussion";
+    const messages = await getChatMessages(projectId, user.id, channel);
     return NextResponse.json({ messages });
   } catch (error) {
     const status = error instanceof AppError ? error.status : 500;

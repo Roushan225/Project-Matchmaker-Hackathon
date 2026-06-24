@@ -8,7 +8,7 @@ import { logConnection } from "./middleware/logger.js";
 
 config({ path: "../../.env.local" });
 
-const port = Number(process.env.REALTIME_PORT ?? 4000);
+const port = Number(process.env.PORT ?? process.env.REALTIME_PORT ?? 4000);
 const origins = (process.env.WEB_ORIGIN ?? "http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim())

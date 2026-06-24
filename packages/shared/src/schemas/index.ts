@@ -63,6 +63,7 @@ export const requestDecisionSchema = z.object({
 export const chatMessageSchema = z.object({
   projectId: z.string().min(1),
   content: z.string().trim().min(1).max(4000),
+  channel: z.enum(["team", "discussion"]).default("discussion"),
 });
 
 export const socketTicketRequestSchema = z.object({

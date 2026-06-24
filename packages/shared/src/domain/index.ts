@@ -161,6 +161,7 @@ export interface ChatMessage {
   projectId: string;
   senderId: string;
   content: string;
+  channel?: "team" | "discussion";
   createdAt: Date;
   attachment?: {
     name: string;

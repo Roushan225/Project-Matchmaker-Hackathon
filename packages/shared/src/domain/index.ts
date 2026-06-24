@@ -147,6 +147,15 @@ export interface WorkspaceExpense {
   createdAt: Date;
 }
 
+export interface WorkspaceAiMessage {
+  id: string;
+  projectId: string;
+  role: "user" | "assistant";
+  content: string;
+  authorId?: string;
+  createdAt: Date;
+}
+
 export interface ChatMessage {
   id: string;
   projectId: string;

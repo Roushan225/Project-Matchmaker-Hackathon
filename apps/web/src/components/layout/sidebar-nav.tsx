@@ -20,7 +20,7 @@ export function SidebarNav({ hubProjects }: { hubProjects: HubProjectLink[] }) {
         <div className="flex gap-1 overflow-x-auto md:flex-col">
           {links.map(([label, href]) => {
             const isActive = href === "/dashboard" ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
-            return <Link key={href} href={href} className={`rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive ? "bg-white text-indigo-950 shadow-lg shadow-indigo-950/20" : "text-indigo-100/70 hover:bg-white/10 hover:text-white"}`}>{label}</Link>;
+            return <Link key={href} href={href} className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive ? "bg-white text-indigo-950 shadow-lg shadow-indigo-950/20" : "text-indigo-100/70 hover:bg-white/10 hover:text-white"}`}><NavIcon label={label} /><span>{label}</span></Link>;
           })}
         </div>
       </nav>
@@ -66,4 +66,14 @@ export function SidebarNav({ hubProjects }: { hubProjects: HubProjectLink[] }) {
       </section>
     </div>
   );
+}
+
+function NavIcon({ label }: { label: (typeof links)[number][0] }) {
+  const paths = {
+    Dashboard: <><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></>,
+    Discover: <><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></>,
+    Projects: <><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z" /><path d="M6 10v5.5c0 1.5 2.7 3.5 6 3.5s6-2 6-3.5V10" /></>,
+    Invitations: <><path d="M4 5h16v14H4z" /><path d="m4 7 8 6 8-6" /><path d="M8 3h8" /></>,
+  } as const;
+  return <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 shrink-0 fill-none stroke-current stroke-[1.8]">{paths[label]}</svg>;
 }

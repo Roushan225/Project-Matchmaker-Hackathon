@@ -33,6 +33,8 @@ Use the same `MONGODB_URI` only when local and production should share applicati
 
 To enable the workspace Resource board, set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in the web runtime. These values are used only by the server upload route; do not expose the API secret through a `NEXT_PUBLIC_` variable.
 
+To enable AI Assist, set `HF_TOKEN` with Hugging Face Inference Providers permission. Optionally set `HF_MODEL`; the default is `meta-llama/Meta-Llama-3-8B-Instruct:fastest`. The token is used only by the server-side AI route.
+
 ## Workspace layout
 
 - `apps/web`: Next.js UI, Auth.js, route handlers, and MongoDB domain logic.

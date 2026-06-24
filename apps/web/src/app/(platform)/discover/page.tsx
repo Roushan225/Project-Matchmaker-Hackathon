@@ -3,6 +3,7 @@ import { listDiscoverableProfiles } from "@/server/repositories/users";
 
 const availabilityLabels = {
   available: "Available",
+  engaged: "Engaged",
   busy: "Busy",
   "looking-for-team": "Looking for team",
   "looking-for-projects": "Looking for projects",

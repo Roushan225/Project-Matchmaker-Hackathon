@@ -69,3 +69,10 @@ export async function addProjectMember(projectId: string, userId: string) {
   const result = await db.collection<ProjectDocument>("projects").updateOne({ _id: new ObjectId(projectId), memberIds: { $ne: userId } }, { $addToSet: { memberIds: userId }, $set: { updatedAt: new Date() } });
   return result.modifiedCount === 1;
 }
+
+export async function updateProjectStatus(projectId: string, ownerId: string, status: Project["status"]) {
+  if (!ObjectId.isValid(projectId)) return false;
+  const db = await getDatabase();
+  const result = await db.collection<ProjectDocument>("projects").updateOne({ _id: new ObjectId(projectId), ownerId }, { $set: { status, updatedAt: new Date() } });
+  return result.modifiedCount === 1;
+}

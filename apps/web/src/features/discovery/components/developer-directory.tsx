@@ -20,7 +20,7 @@ const demoPeople: DirectoryPerson[] = [
   { name: "Mina Park", username: "mina-park", role: "Product designer", availability: "Looking for projects", stack: ["UI/UX", "Research", "Design systems"] },
 ];
 
-const availabilityOptions = ["All availability", "Available", "Looking for team", "Looking for projects"] as const;
+const availabilityOptions = ["All availability", "Available", "Engaged", "Looking for team", "Looking for projects"] as const;
 
 export function DeveloperDirectory({ realPeople }: { realPeople: DirectoryPerson[] }) {
   const [query, setQuery] = useState("");

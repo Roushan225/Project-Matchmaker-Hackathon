@@ -17,6 +17,7 @@ export function ensureIndexes() {
       db.collection("workspaceTasks").createIndex({ projectId: 1, updatedAt: -1 }),
       db.collection("workspaceResources").createIndex({ projectId: 1, createdAt: -1 }),
       db.collection("workspaceExpenses").createIndex({ projectId: 1, createdAt: -1 }),
+      db.collection("workspaceAiMessages").createIndex({ projectId: 1, createdAt: -1 }),
     ]);
   })();
   return indexesReady;

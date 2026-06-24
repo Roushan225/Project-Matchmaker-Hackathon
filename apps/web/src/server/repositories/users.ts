@@ -67,3 +67,10 @@ export async function completeOnboarding(userId: string, profile: Omit<Onboardin
   );
   return result.matchedCount === 1;
 }
+
+export async function updateAvailability(userId: string, availability: AvailabilityStatus) {
+  if (!ObjectId.isValid(userId)) return false;
+  const db = await getDatabase();
+  const result = await db.collection<UserDocument>("users").updateOne({ _id: new ObjectId(userId) }, { $set: { availability, updatedAt: new Date() } });
+  return result.matchedCount === 1;
+}

@@ -1,5 +1,6 @@
 export const AVAILABILITY_STATUSES = [
   "available",
+  "engaged",
   "busy",
   "looking-for-team",
   "looking-for-projects",

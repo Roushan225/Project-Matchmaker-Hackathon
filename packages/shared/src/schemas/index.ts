@@ -37,6 +37,14 @@ export const projectCreateSchema = z.object({
   status: z.enum(PROJECT_STATUSES).default("recruiting"),
 });
 
+export const projectStatusUpdateSchema = z.object({
+  status: z.enum(PROJECT_STATUSES),
+});
+
+export const availabilityUpdateSchema = z.object({
+  availability: z.enum(AVAILABILITY_STATUSES),
+});
+
 export const applicationCreateSchema = z.object({
   projectId: z.string().min(1),
   note: z.string().trim().max(500).optional(),
@@ -67,4 +75,9 @@ export const workspaceExpenseCreateSchema = z.object({
   description: z.string().trim().max(280).optional(),
   amount: z.coerce.number().positive().max(1_000_000),
   currency: z.string().trim().toUpperCase().length(3).default("USD"),
+});
+
+export const workspaceAiMessageSchema = z.object({
+  projectId: z.string().min(1),
+  content: z.string().trim().min(1).max(4000),
 });

@@ -1,9 +1,23 @@
 import type { ObjectId } from "mongodb";
-import type { Application, ChatMessage, Invitation, PersonalAssistantMessage, Project, SmartNotification, UserProfile, WorkspaceAiMessage, WorkspaceExpense, WorkspaceMembership, WorkspaceResource } from "@project-matchmaker/shared";
+import type {
+  Application,
+  ChatMessage,
+  Invitation,
+  PersonalAssistantMessage,
+  Project,
+  ProjectFeedback,
+  SmartNotification,
+  UserProfile,
+  WorkspaceAiMessage,
+  WorkspaceExpense,
+  WorkspaceMembership,
+  WorkspaceResource,
+} from "@project-matchmaker/shared";
 
 export type Stored<T> = Omit<T, "id"> & { _id: ObjectId };
 export type UserDocument = Stored<UserProfile>;
 export type ProjectDocument = Stored<Project>;
+export type ProjectFeedbackDocument = Stored<ProjectFeedback>;
 export type ApplicationDocument = Stored<Application>;
 export type InvitationDocument = Stored<Invitation>;
 export type WorkspaceMembershipDocument = Stored<WorkspaceMembership>;
@@ -26,7 +40,9 @@ export type WorkspaceTask = {
 };
 export type WorkspaceTaskDocument = Stored<WorkspaceTask>;
 
-export function withId<T extends { _id: ObjectId }>(document: T): Omit<T, "_id"> & { id: string } {
+export function withId<T extends { _id: ObjectId }>(
+  document: T,
+): Omit<T, "_id"> & { id: string } {
   const { _id, ...rest } = document;
   return { ...rest, id: _id.toHexString() };
 }

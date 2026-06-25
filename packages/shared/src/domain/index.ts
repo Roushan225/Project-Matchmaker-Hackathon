@@ -68,7 +68,12 @@ export interface GitHubSnapshot {
   followers: number;
   following: number;
   joinedAt: Date;
-  organizations: Array<{ login: string; name?: string; avatarUrl: string; url: string }>;
+  organizations: Array<{
+    login: string;
+    name?: string;
+    avatarUrl: string;
+    url: string;
+  }>;
   languages: string[];
   repositories: GitHubRepository[];
   contributionCalendar: {
@@ -145,6 +150,18 @@ export interface WorkspaceExpense {
   currency: string;
   paidById: string;
   createdAt: Date;
+}
+
+export interface ProjectFeedback {
+  id: string;
+  projectId: string;
+  userId: string;
+  rating: number;
+  thoughts: string;
+  highlights?: string;
+  improvements?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface WorkspaceAiMessage {

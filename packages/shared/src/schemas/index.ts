@@ -19,9 +19,18 @@ export const profileUpdateSchema = z.object({
 
 export const onboardingSchema = z.object({
   headline: z.string().trim().max(100).optional(),
-  techStack: z.array(normalizedText.max(40)).min(1, "Add at least one technical skill.").max(20),
-  roles: z.array(normalizedText.max(40)).min(1, "Add at least one role.").max(10),
-  projectInterests: z.array(normalizedText.max(40)).min(1, "Choose at least one project interest.").max(10),
+  techStack: z
+    .array(normalizedText.max(40))
+    .min(1, "Add at least one technical skill.")
+    .max(20),
+  roles: z
+    .array(normalizedText.max(40))
+    .min(1, "Add at least one role.")
+    .max(10),
+  projectInterests: z
+    .array(normalizedText.max(40))
+    .min(1, "Choose at least one project interest.")
+    .max(10),
   weeklyAvailability: z.enum(["1-3", "4-7", "8-12", "12+"]),
   availability: z.enum(AVAILABILITY_STATUSES),
   discoverable: z.boolean(),
@@ -39,6 +48,14 @@ export const projectCreateSchema = z.object({
 
 export const projectStatusUpdateSchema = z.object({
   status: z.enum(PROJECT_STATUSES),
+});
+
+export const projectFeedbackSchema = z.object({
+  projectId: z.string().min(1),
+  rating: z.coerce.number().int().min(1).max(5),
+  thoughts: z.string().trim().min(10, "Share at least 10 characters.").max(1200),
+  highlights: z.string().trim().max(800).optional(),
+  improvements: z.string().trim().max(800).optional(),
 });
 
 export const availabilityUpdateSchema = z.object({

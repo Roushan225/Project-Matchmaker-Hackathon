@@ -1,5 +1,5 @@
 import type { ObjectId } from "mongodb";
-import type { Application, ChatMessage, Invitation, PersonalAssistantMessage, Project, UserProfile, WorkspaceAiMessage, WorkspaceExpense, WorkspaceMembership, WorkspaceResource } from "@project-matchmaker/shared";
+import type { Application, ChatMessage, Invitation, PersonalAssistantMessage, Project, SmartNotification, UserProfile, WorkspaceAiMessage, WorkspaceExpense, WorkspaceMembership, WorkspaceResource } from "@project-matchmaker/shared";
 
 export type Stored<T> = Omit<T, "id"> & { _id: ObjectId };
 export type UserDocument = Stored<UserProfile>;
@@ -12,6 +12,7 @@ export type WorkspaceExpenseDocument = Stored<WorkspaceExpense>;
 export type WorkspaceAiMessageDocument = Stored<WorkspaceAiMessage>;
 export type PersonalAssistantMessageDocument = Stored<PersonalAssistantMessage>;
 export type ChatMessageDocument = Stored<ChatMessage>;
+export type SmartNotificationDocument = Stored<SmartNotification>;
 export type WorkspaceTask = {
   id: string;
   projectId: string;

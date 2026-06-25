@@ -8,6 +8,8 @@ export async function verifySocketTicket(token: unknown): Promise<SocketTicketCl
   const secret = process.env.SOCKET_TOKEN_SECRET;
   if (!secret) throw new Error("SOCKET_TOKEN_SECRET is not configured.");
   const { payload } = await jwtVerify(token, encoder.encode(secret));
-  if (typeof payload.sub !== "string" || typeof payload.projectId !== "string") throw new Error("The real-time ticket is invalid.");
-  return { sub: payload.sub, projectId: payload.projectId };
+  if (typeof payload.sub !== "string") throw new Error("The real-time ticket is invalid.");
+  if (payload.projectId !== undefined && typeof payload.projectId !== "string") throw new Error("The real-time ticket is invalid.");
+  if (payload.scope !== undefined && payload.scope !== "workspace" && payload.scope !== "notifications") throw new Error("The real-time ticket is invalid.");
+  return { sub: payload.sub, projectId: payload.projectId, scope: payload.scope };
 }

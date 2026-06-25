@@ -67,7 +67,8 @@ export const chatMessageSchema = z.object({
 });
 
 export const socketTicketRequestSchema = z.object({
-  projectId: z.string().min(1),
+  projectId: z.string().min(1).optional(),
+  scope: z.enum(["workspace", "notifications"]).optional(),
 });
 
 export const workspaceExpenseCreateSchema = z.object({

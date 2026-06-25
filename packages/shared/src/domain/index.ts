@@ -164,6 +164,24 @@ export interface PersonalAssistantMessage {
   createdAt: Date;
 }
 
+export type SmartNotificationKind =
+  | "invitation"
+  | "application"
+  | "request-update"
+  | "workspace"
+  | "system";
+
+export interface SmartNotification {
+  id: string;
+  userId: string;
+  kind: SmartNotificationKind;
+  title: string;
+  body: string;
+  href?: string;
+  read: boolean;
+  createdAt: Date;
+}
+
 export interface ChatMessage {
   id: string;
   projectId: string;
@@ -180,5 +198,6 @@ export interface ChatMessage {
 
 export interface SocketTicketClaims {
   sub: string;
-  projectId: string;
+  projectId?: string;
+  scope?: "workspace" | "notifications";
 }

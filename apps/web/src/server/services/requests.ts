@@ -6,6 +6,7 @@ import { createApplication, createInvitation, createMembership, findApplication,
 import { listProfilesByIds } from "../repositories/users";
 import { requireProjectOwner } from "./authorization";
 import { AppError } from "./errors";
+import { notifyUser } from "./notifications";
 
 export async function applyToProject(input: unknown, applicantId: string): Promise<Application> {
   const parsed = applicationCreateSchema.safeParse(input);
@@ -17,7 +18,16 @@ export async function applyToProject(input: unknown, applicantId: string): Promi
   if (await findApplication(project.id, applicantId)) throw new AppError("You have already applied to this project.", 409);
   await ensureIndexes();
   const now = new Date();
-  return createApplication({ projectId: project.id, applicantId, note: parsed.data.note, status: "pending", createdAt: now, updatedAt: now });
+  const application = await createApplication({ projectId: project.id, applicantId, note: parsed.data.note, status: "pending", createdAt: now, updatedAt: now });
+  const [applicant] = await listProfilesByIds([applicantId]);
+  await notifyUser({
+    userId: project.ownerId,
+    kind: "application",
+    title: "New project application",
+    body: `${applicant?.name ?? "A developer"} applied to join ${project.title}.`,
+    href: "/invitations",
+  });
+  return application;
 }
 
 export async function inviteToProject(input: unknown, senderId: string): Promise<Invitation> {
@@ -29,7 +39,15 @@ export async function inviteToProject(input: unknown, senderId: string): Promise
   if (await findInvitation(project.id, parsed.data.recipientId)) throw new AppError("This developer has already been invited to this project.", 409);
   await ensureIndexes();
   const now = new Date();
-  return createInvitation({ projectId: project.id, recipientId: parsed.data.recipientId, senderId, note: parsed.data.note, status: "pending", createdAt: now, updatedAt: now });
+  const invitation = await createInvitation({ projectId: project.id, recipientId: parsed.data.recipientId, senderId, note: parsed.data.note, status: "pending", createdAt: now, updatedAt: now });
+  await notifyUser({
+    userId: parsed.data.recipientId,
+    kind: "invitation",
+    title: "Project invitation",
+    body: `You were invited to join ${project.title}.`,
+    href: "/invitations",
+  });
+  return invitation;
 }
 
 export async function listInviteOptions(senderId: string, recipientId: string) {
@@ -60,6 +78,13 @@ export async function decideApplication(applicationId: string, input: unknown, o
     await createMembership({ projectId: project.id, userId: application.applicantId, role: "member", joinedAt: new Date() });
   }
   await updateApplication(applicationId, parsed.data.status, ownerId);
+  await notifyUser({
+    userId: application.applicantId,
+    kind: "request-update",
+    title: `Application ${parsed.data.status}`,
+    body: `Your application to ${project.title} was ${parsed.data.status}.`,
+    href: parsed.data.status === "accepted" ? `/hub/${project.id}` : "/invitations",
+  });
 }
 
 export async function decideInvitation(invitationId: string, input: unknown, recipientId: string) {
@@ -78,6 +103,13 @@ export async function decideInvitation(invitationId: string, input: unknown, rec
     await createMembership({ projectId: project.id, userId: recipientId, role: "member", joinedAt: new Date() });
   }
   await updateInvitation(invitationId, parsed.data.status, recipientId);
+  await notifyUser({
+    userId: invitation.senderId,
+    kind: "request-update",
+    title: `Invitation ${parsed.data.status}`,
+    body: `Your invitation for ${project.title} was ${parsed.data.status}.`,
+    href: "/invitations",
+  });
 }
 
 export async function getRequestInbox(userId: string) {

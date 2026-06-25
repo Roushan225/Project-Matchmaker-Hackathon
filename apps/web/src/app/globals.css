@@ -14,6 +14,7 @@ button, input, textarea, select { font: inherit; }
 html { scroll-behavior: smooth; }
 .scroll-scale { transform-origin: center center; transition: transform 100ms linear, opacity 100ms linear; will-change: transform, opacity; }
 .discovery-empty { --spotlight-x: 50%; --spotlight-y: 50%; background: radial-gradient(300px circle at var(--spotlight-x) var(--spotlight-y), rgba(167, 139, 250, .22), transparent 56%), linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025)); }
+@media (min-width: 1280px) { .dashboard-copilot-open .dashboard-summary-grid, .dashboard-copilot-open .dashboard-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .discovery-radar { position: relative; width: 180px; height: 180px; }
 .discovery-radar::before { content: ""; position: absolute; inset: 50% auto auto 50%; width: 2px; height: 74px; background: linear-gradient(to top, rgba(216,180,254,.98), transparent); transform-origin: bottom; animation: radar-sweep 3.8s linear infinite; }
 .discovery-radar-ring { position: absolute; inset: 50%; border: 1px solid rgba(224,231,255,.25); border-radius: 50%; transform: translate(-50%, -50%); }
@@ -21,6 +22,8 @@ html { scroll-behavior: smooth; }
 .discovery-radar-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #d8b4fe; box-shadow: 0 0 0 4px rgba(216,180,254,.1), 0 0 20px rgba(216,180,254,.8); animation: radar-dot 2.8s ease-in-out infinite; }.discovery-radar-dot-one { top: 34px; right: 41px; }.discovery-radar-dot-two { bottom: 46px; left: 36px; animation-delay: .8s; }.discovery-radar-dot-three { right: 20px; bottom: 70px; animation-delay: 1.6s; }
 .discovery-search-icon { position: absolute; top: 50%; left: 50%; width: 31px; height: 31px; border: 3px solid white; border-radius: 50%; transform: translate(-57%, -57%); box-shadow: 0 0 24px rgba(255,255,255,.35); }.discovery-search-icon::after { content: ""; position: absolute; right: -13px; bottom: -9px; width: 14px; height: 3px; border-radius: 2px; background: white; transform: rotate(45deg); }
 @keyframes radar-sweep { to { transform: rotate(360deg); } } @keyframes radar-dot { 0%,100% { opacity: .28; transform: scale(.75); } 50% { opacity: 1; transform: scale(1.16); } }
+.matchmaker-message-enter, .matchmaker-searching { animation: matchmaker-message-in 220ms ease-out both; }.matchmaker-thinking-dot { display: block; height: 5px; width: 5px; border-radius: 999px; background: #ddd6fe; animation: matchmaker-thinking 1s ease-in-out infinite; }.matchmaker-thinking-dot:nth-child(2) { animation-delay: 140ms; }.matchmaker-thinking-dot:nth-child(3) { animation-delay: 280ms; }
+@keyframes matchmaker-message-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } @keyframes matchmaker-thinking { 0%,100% { opacity: .32; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
 
 .landing-grid { background-image: linear-gradient(rgba(167, 139, 250, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(167, 139, 250, .12) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
 .landing-reveal { animation: landing-reveal 700ms cubic-bezier(.2,.8,.2,1) both; }

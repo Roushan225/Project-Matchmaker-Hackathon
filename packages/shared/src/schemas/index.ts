@@ -82,3 +82,7 @@ export const workspaceAiMessageSchema = z.object({
   projectId: z.string().min(1),
   content: z.string().trim().min(1).max(4000),
 });
+
+export const personalAssistantMessageSchema = z.object({
+  content: z.string().trim().min(1).max(4000),
+});

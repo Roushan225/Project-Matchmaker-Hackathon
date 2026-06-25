@@ -156,6 +156,14 @@ export interface WorkspaceAiMessage {
   createdAt: Date;
 }
 
+export interface PersonalAssistantMessage {
+  id: string;
+  userId: string;
+  role: "user" | "assistant";
+  content: string;
+  createdAt: Date;
+}
+
 export interface ChatMessage {
   id: string;
   projectId: string;

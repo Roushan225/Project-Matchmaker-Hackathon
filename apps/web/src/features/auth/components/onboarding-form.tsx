@@ -12,11 +12,12 @@ type OnboardingFormProps = {
     availability: "available" | "engaged" | "busy" | "looking-for-team" | "looking-for-projects";
     discoverable: boolean;
   };
+  callbackUrl?: string;
 };
 
 const splitList = (value: FormDataEntryValue | null) => String(value ?? "").split(",").map((item) => item.trim()).filter(Boolean);
 
-export function OnboardingForm({ initialProfile }: OnboardingFormProps) {
+export function OnboardingForm({ initialProfile, callbackUrl = "/dashboard" }: OnboardingFormProps) {
   const [message, setMessage] = useState<string>();
   const [saving, setSaving] = useState(false);
 
@@ -39,7 +40,7 @@ export function OnboardingForm({ initialProfile }: OnboardingFormProps) {
     const data = await response.json();
     if (response.ok) {
       const syncResponse = await fetch("/api/github/sync", { method: "POST" });
-      if (syncResponse.ok) window.location.assign("/dashboard");
+      if (syncResponse.ok) window.location.assign(callbackUrl);
       else {
         setMessage("Your profile is saved, but GitHub data could not sync. You can retry from the dashboard.");
         setSaving(false);

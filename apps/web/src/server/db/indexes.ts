@@ -19,6 +19,7 @@ export function ensureIndexes() {
       db.collection("workspaceResources").createIndex({ projectId: 1, createdAt: -1 }),
       db.collection("workspaceExpenses").createIndex({ projectId: 1, createdAt: -1 }),
       db.collection("workspaceAiMessages").createIndex({ projectId: 1, createdAt: -1 }),
+      db.collection("personalAssistantMessages").createIndex({ userId: 1, createdAt: -1 }),
     ]);
   })();
   return indexesReady;

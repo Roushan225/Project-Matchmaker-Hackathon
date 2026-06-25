@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 
-export function GitHubSignInButton() {
+export function GitHubSignInButton({ callbackUrl = "/dashboard" }: { callbackUrl?: string }) {
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   async function handleSignIn() {
     setIsSigningIn(true);
-    await signIn("github", { redirectTo: "/dashboard" });
+    await signIn("github", { redirectTo: callbackUrl });
   }
 
   return (
